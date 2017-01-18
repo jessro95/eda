@@ -7,9 +7,10 @@ library(tidyr)
 library(ggplot2)
 library(plotly)
 library(vioplot)
-setwd('~/Documents/info-370/eda/health-burden/')
+setwd('~/info370/eda/health-burden/')
 risk.data <- read.csv('./data/prepped/risk-data.csv', stringsAsFactors = FALSE) 
 
+View(risk.data)
 ######################
 ### Data Structure ###
 ######################
@@ -18,16 +19,37 @@ risk.data <- read.csv('./data/prepped/risk-data.csv', stringsAsFactors = FALSE)
 
 # Dimensions, column names, structure, summaries, etc.
 
-# Replacing missing values...?
+##Dimensions
+dim(risk.data)
+
+##Column Names
+colnames (risk.data)
+
+##Structure
+str(risk.data)
+
+##Summaries
+summary(risk.data)
+
+which(duplicated(risk.data[1:5],))
+unique (risk.data$age)
+
+# Replacing missing values...? omitted the missing values
+risk.data[!complete.cases(risk.data),]
+noNA.data <- na.omit(risk.data)
+dim(noNA.data)
 
 ###########################
 ### Univariate Analysis ###
 ###########################
 
 ## Using a variety of approaches, investigate the structure each (risk column) individually
+colnames(noNA.data)
+
+##by.alcohol.use <- noNA.data %>%
+  #                summarize(avg.death = mean(alcohol.use, na.rm = T))
 
 # Summarize data
- 
 # Create histograms, violin plots, boxplots
 
 
@@ -38,7 +60,23 @@ risk.data <- read.csv('./data/prepped/risk-data.csv', stringsAsFactors = FALSE)
 # Investiage how each risk-variable varies by **age group**
 
 # Create histograms, violin plots, boxplots. Calculate values as needed. 
+aggregate()
 
+View(by_age)
+
+hist(risk.data$drug.use)
+
+barplot(sectors.average$average)
+
+vioplot(
+  risk.data$smoking,
+  risk.data$alcohol.use,
+  names=c('smoking', 'alcohol')
+)
+
+##boxplot
+long.data <- gather(risk.data, risk, value, smoking, alcohol.use, drug.use)
+boxplot(value ~risk)
 
 ####################################
 ### Univariate Analysis (by sex) ###
